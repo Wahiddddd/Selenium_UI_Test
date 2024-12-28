@@ -1,30 +1,45 @@
-const { By } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 
 class DashboardPage {
     constructor(driver) {
         this.driver = driver;
-        this.firstAddToCartButton = By.xpath("(//button[text()='Add to cart'])[1]"); // Tombol Add to Cart pertama
-        this.cartBadge = By.className('shopping_cart_badge'); // Ikon jumlah item di keranjang
     }
 
+    // Menavigasi ke halaman Dashboard
+    async navigate() {
+        await this.driver.get('https://www.saucedemo.com/');
+    }
+
+    // Melakukan login ke halaman
+    async login(username, password) {
+        await this.driver.findElement(By.id('user-name')).sendKeys(username);
+        await this.driver.findElement(By.id('password')).sendKeys(password);
+        await this.driver.findElement(By.id('login-button')).click();
+    }
+
+    // Memeriksa apakah kita berada di halaman dashboard
     async isOnDashboard() {
         const title = await this.driver.getTitle();
         return title;
     }
 
+    // Menambahkan item pertama ke keranjang
     async addFirstItemToCart() {
-        const addToCartButton = await this.driver.findElement(this.firstAddToCartButton);
-        await addToCartButton.click(); // Klik tombol Add to Cart
+        await this.driver.findElement(By.css('.inventory_item:nth-child(1) .btn_inventory')).click();
     }
 
+    // Mendapatkan jumlah badge cart
     async getCartBadgeCount() {
-        try {
-            const badge = await this.driver.findElement(this.cartBadge);
-            const badgeText = await badge.getText();
-            return parseInt(badgeText, 10); // Konversi teks menjadi angka
-        } catch (err) {
-            return 0; // Jika tidak ada badge, jumlah item adalah 0
-        }
+        const badge = await this.driver.findElement(By.css('.shopping_cart_badge'));
+        const badgeText = await badge.getText();
+        return parseInt(badgeText, 10);
+    }
+
+    // Menavigasi ke halaman Cart
+    async navigateToCart() {
+        // Klik ikon cart untuk pergi ke halaman cart
+        const cartIcon = await this.driver.findElement(By.css('.shopping_cart_link'));
+        await cartIcon.click();
     }
 }
 
