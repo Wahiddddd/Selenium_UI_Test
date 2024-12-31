@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha 'test/**/*.js'",
+    "test-regression": "mocha --grep '#Regression' 'test/**/*.js'",
+    "test-login": "mocha --grep '[login]' 'test/testcase1.js' 'test/testcase2.js'",
+    "test-add-to-cart": "mocha --grep '[add-to-cart]' 'test/testcase3.js'",
+    "test-checkout-complete": "mocha --grep '[checkout]' 'test/testcase4.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "selenium-webdriver": "^4.27.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.0.1"
   }
 }

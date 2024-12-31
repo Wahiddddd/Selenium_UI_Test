@@ -9,8 +9,8 @@ class LoginPage{
         this.errorMessage = By.xpath("//h3[.='Epic sadface: Username and password do not match any user in this service']");
     }
 
-    async navigate(){
-        await this.driver.get("https://saucedemo.com/")
+    async navigate(browser){
+        await this.driver.get(browser);
     }
 
     async login (username, password){
